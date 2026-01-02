@@ -2,7 +2,7 @@
 public class Binomial {	
     public static void main(String[] args) {
 		//// Uncomment the version of binomial that you want to test
-		int res = binomial1(10, 3);
+		long res = binomial1(10, 3);
 		
 		res = binomial(10, 3);
 		// Testing the basic binomial implementation:
@@ -22,31 +22,30 @@ public class Binomial {
 		return binomial1(n - 1, k) + binomial1(n - 1, k - 1);		
 	 }
 	
-	// Computes the Binomial function, efficiently
-	public static int binomial(int n, int k) {
-		if (k > n) return 0;
-		int[][] memo = new int[n + 1][k + 1];
+	// Computes the Binomial function, efficiently (memoized, uses long to avoid overflow)
+	public static long binomial(int n, int k) {
+		if (k > n) return 0L;
+		long[][] memo = new long[n + 1][k + 1];
 		for (int i = 0; i <= n; i++) {
 			for (int j = 0; j <= k; j++) {
-				memo[i][j] = -1;
+				memo[i][j] = -1L;
 			}
 		}
 		return binomial(n, k, memo);
 	}
 
-	private static int binomial(int n, int k, int[][] memo) {
-		if (memo[n][k] != -1) {
+	private static long binomial(int n, int k, long[][] memo) {
+		if (memo[n][k] != -1L) {
 			return memo[n][k];
 		}
-		// Base case
-		if ((k > n)) {
-		   	memo[n][k] = 0; 
-		   	return 0;
+		// Base cases
+		if (k > n) {
+		   	memo[n][k] = 0L; 
+		   	return 0L;
 		}
-		// Another base case
 		if (n == 0 || k == 0) {
-		   	memo[n][k] = 1; 
-		   	return 1;
+		   	memo[n][k] = 1L; 
+		   	return 1L;
 		}
 		memo[n][k] = binomial(n - 1, k, memo) + binomial(n - 1, k - 1, memo);
 		return memo[n][k];
